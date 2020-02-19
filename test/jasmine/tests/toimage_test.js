@@ -271,7 +271,11 @@ describe('Plotly.toImage', function() {
             .then(function() { return Plotly.toImage('graph', imgOpts);})
             .then(function(fig) {
                 fig = JSON.parse(fig);
+                ['data', 'layout', 'config'].forEach(function(key) {
+                    expect(fig.hasOwnProperty(key)).toBeTruthy('is missing key: ' + key);
+                });
                 expect(fig.data[0].mode).toBe('lines+markers', 'contain default mode');
+                expect(fig.version).toBe(Plotly.version, 'contains Plotly version');
             })
             .catch(failTest)
             .then(done);
@@ -281,7 +285,11 @@ describe('Plotly.toImage', function() {
             Plotly.toImage({data: [{y: [1, 2, 3]}]}, imgOpts)
             .then(function(fig) {
                 fig = JSON.parse(fig);
+                ['data', 'layout', 'config'].forEach(function(key) {
+                    expect(fig.hasOwnProperty(key)).toBeTruthy('is missing key: ' + key);
+                });
                 expect(fig.data[0].mode).toBe('lines+markers', 'contain default mode');
+                expect(fig.version).toBe(Plotly.version, 'contains Plotly version');
             })
             .catch(failTest)
             .then(done);

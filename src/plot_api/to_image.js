@@ -17,6 +17,7 @@ var Lib = require('../lib');
 var helpers = require('../snapshot/helpers');
 var toSVG = require('../snapshot/tosvg');
 var svgToImg = require('../snapshot/svgtoimg');
+var version = require('../core').version;
 
 var attrs = {
     format: {
@@ -172,7 +173,9 @@ function toImage(gd, opts) {
             var height = clonedGd._fullLayout.height;
 
             if(format === 'full-json') {
-                var json = plots.graphJson(clonedGd, false, 'keepdata', false, true);
+                var json = plots.graphJson(clonedGd, false, 'keepdata', 'object', true, true);
+                json.version = version;
+                json = JSON.stringify(json);
                 if(imageDataOnly) {
                     return resolve(json);
                 } else {
